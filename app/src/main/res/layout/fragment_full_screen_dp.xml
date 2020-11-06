@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.thefuntasty.hauler.HaulerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    tools:context=".ImageViewLayout.FullScreenDpFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="361dp"
+            android:layout_height="361dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:contentDescription="@string/for_full_screen_images"
+            android:foregroundGravity="center_vertical|center_horizontal|center"
+            android:src="@drawable/ic_launcher_foreground"
+            android:transitionName="@string/dp_transition" />
+    </ScrollView>
+
+</com.thefuntasty.hauler.HaulerView>
