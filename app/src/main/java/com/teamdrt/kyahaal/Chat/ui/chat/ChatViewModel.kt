@@ -1,6 +1,9 @@
 package com.teamdrt.kyahaal.Chat.ui.chat
 
 import android.app.Application
+import android.media.MediaPlayer
+import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -12,16 +15,21 @@ import com.teamdrt.kyahaal.Databases.Chat.ChatDatabase
 import com.teamdrt.kyahaal.Databases.Chat.ChatRepository
 import com.teamdrt.kyahaal.Databases.Message.Message
 import com.teamdrt.kyahaal.Databases.Message.MessageRepository
+import com.teamdrt.kyahaal.Message.ui.main.MessageFragment
 import com.teamdrt.kyahaal.ModalClass.User
+import com.teamdrt.kyahaal.R
 import com.teamdrt.kyahaal.Utils.subscribeOnBackground
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ChatViewModel(application: Application) : AndroidViewModel(application) {
+
+class ChatViewModel(application: Application,val fm: FragmentManager) : AndroidViewModel(application) {
+
     private val repository = MessageRepository(application, null, null)
     private val repository2 = ChatRepository(application, null)
     private var chatDao: ChatDao = ChatDatabase.getInstance(application).chatDao()
     private var push_id: String? = null
+
 
     fun insert(Message: Message) {
         repository.insert(Message)
@@ -62,9 +70,11 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 if (chatDao.getuc(chat.uid) != null) {
                     uc = chatDao.getuc(chat.uid)!! + 1
                 }
-
                 chat.unreadcount = uc
                 insert2(chat)
+                if (isvisibleornot()) {
+
+                }
 
             }
 
@@ -166,5 +176,11 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             }
 
         })
+    }
+
+    fun isvisibleornot(): Boolean {
+        val fragment: MessageFragment? =
+            fm.findFragmentById(R.id.fragment_container) as MessageFragment?
+        return fragment != null && fragment.isVisible
     }
 }

@@ -60,4 +60,7 @@
 
     <!-- Strings for AppBar title -->
     <string name="message_activiy">Messages</string>
+
+   <!-- ca-app-pub-3737658489234649/1586848607-->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

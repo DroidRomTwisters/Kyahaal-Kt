@@ -6,6 +6,7 @@
 package com.teamdrt.kyahaal.Message.ui.main
 
 import android.app.Application
+import android.media.MediaPlayer
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -21,15 +22,16 @@ import kotlin.collections.HashMap
 
 class MainViewModel(
     application: Application,
-    val uid1: String,
-    val uid2: String,
+    private val uid1: String,
+    private val uid2: String,
     val fm: FragmentManager
 ) :
     AndroidViewModel(application) {
-
+    val context=application.applicationContext
     private val repository = MessageRepository(application, uid1, uid2)
     private val repository2 = ChatRepository(application, null)
-
+    var mp = MediaPlayer.create(context, R.raw.receive)
+    var mp1 = MediaPlayer.create(context, R.raw.send)
 
     fun insert(Message: Message) {
         repository.insert(Message)
@@ -91,20 +93,39 @@ class MainViewModel(
                     null
                 )
             )
+            try {
+                if (mp1.isPlaying) {
+                    mp1.stop()
+                    mp1.release()
+                    mp1 = MediaPlayer.create(context, R.raw.send)
+                }
+                mp1.start()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             insert2(Chat(uid2, name!!, phone, pplink, message, true, 0, timestaamp))
         }
     }
 
-    fun receiveMessages(name: String?, phone: String, pplink: String) {
-        val timestaamp = Date().time
+    fun receiveMessages() {
         val mchatRef =
             FirebaseDatabase.getInstance().getReference("User").child(uid1).child("messages")
         mchatRef.addChildEventListener(object : ChildEventListener {
 
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message: Message = snapshot.getValue(Message::class.java)!!
-                message.received_timestamp = timestaamp
-                insert(message)
+                if (message.from_uid==uid2 && isvisibleornot()){
+                    try {
+                        if (mp.isPlaying) {
+                            mp.stop()
+                            mp.release()
+                            mp = MediaPlayer.create(context, R.raw.receive)
+                        }
+                        mp.start()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -112,9 +133,6 @@ class MainViewModel(
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                if (isvisibleornot()) {
-                    clearuc()
-                }
 
             }
 
@@ -130,10 +148,10 @@ class MainViewModel(
 
         })
     }
-
     fun isvisibleornot(): Boolean {
         val fragment: MessageFragment? =
             fm.findFragmentById(R.id.fragment_container) as MessageFragment?
         return fragment != null && fragment.isVisible
     }
+
 }

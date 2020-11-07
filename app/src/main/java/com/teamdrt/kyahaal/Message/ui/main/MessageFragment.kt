@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,14 +62,10 @@ class MessageFragment : Fragment() {
         return inflater.inflate(R.layout.message_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this,MessageViewModelFactory(requireActivity().application,FirebaseAuth.getInstance().currentUser?.uid!!,uid!!,requireActivity().supportFragmentManager)).get(MainViewModel::class.java)
-        viewModel.receiveMessages(name!!,phone!!,pplink!!)
+        viewModel.receiveMessages()
         viewModel.clearuc()
         val mrv=view.findViewById<RecyclerView>(R.id.message_rv)
         val message=view.findViewById<EmojiEditText>(R.id.message)
@@ -114,10 +109,6 @@ class MessageFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.clearuc()
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-
     }
 }
 

@@ -55,7 +55,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.annotation:annotation:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'com.google.firebase:firebase-analytics:18.0.0'
@@ -66,6 +66,9 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+    implementation 'com.google.firebase:firebase-ads:19.5.0'
+    implementation 'com.google.firebase:firebase-functions:19.1.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -118,5 +121,13 @@ dependencies {
     //EmojiKeyboard
     implementation 'com.vanniktech:emoji-facebook:0.7.0'
     implementation 'com.vanniktech:emoji-ios:0.7.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10"
+
+
+    implementation 'com.vdurmont:emoji-java:5.1.1'
+
 }
+
 
